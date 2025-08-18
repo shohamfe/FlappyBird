@@ -1,94 +1,83 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class PipesManager : MonoBehaviour
 {
-    private float _pipeWidth;
-    private float _pipeHeight;
-    private float _pipeSpacing;
-    private float _floorHeight;
-    private readonly List<GameObject> _bottomPipes = new();
-    private readonly List<GameObject> _topPipes = new();
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _pipePairPrefab;
+
+    private readonly List<GameObject> _pipePairs = new();
+    private Vector3 _size;
+
+    private float _pipesSpacing = 200f;
+    public static PipesManager Instance { get; private set; }
+
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        var size = GameManager.Instance.PipePrefab.GetComponent<SpriteRenderer>().bounds.size;
-        _pipeWidth = size.x;
-        _pipeHeight = size.y;
-        _pipeSpacing = _pipeHeight + 120f;
-        _floorHeight = GameManager.Instance.FloorPrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+        _size = _pipePairPrefab.GetComponentInChildren<SpriteRenderer>().bounds.size;
+        _pipesSpacing = _size.x + 200f;
 
-        // Spawn 2 pairs only
         for (int i = 0; i < 2; i++)
-            SpawnPipe(ScreenManager.ScreenRightEdge + _pipeWidth + i * (_pipeWidth + 200f));
+            SpawnPipePair(ScreenManager.ScreenRightEdge + _size.x + i * _pipesSpacing);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float fixedSpacing = _pipeWidth + 200f; // Adjust 200f as needed for your game
-        for (int i = 0; i < _bottomPipes.Count; i++)
+        for (int i = 0; i < _pipePairs.Count; i++)
         {
-            var bottomPipe = _bottomPipes[i];
-            var topPipe = _topPipes[i];
-            Vector3 pos = bottomPipe.transform.position;
-            float pipeRightEdge = pos.x + _pipeWidth;
+            var pipePair = _pipePairs[i];
+            Vector3 pos = pipePair.transform.position;
+            float pipeRightEdge = pos.x + _size.x;
 
             if (pipeRightEdge > ScreenManager.ScreenLeftEdge)
             {
                 var interval = new Vector3(-GameManager.Instance.Speed, 0, 0);
-                bottomPipe.transform.position += interval;
-                topPipe.transform.position += interval;
-
-                // Check if bird passed the pipe
-                var bird = GameManager.Instance.BirdPrefab; // Assuming this is the bird instance
-                if (bird != null)
-                {
-                    float birdX = bird.transform.position.x;
-                    // Use a flag to ensure score is only added once per pipe
-                    if (!bottomPipe.TryGetComponent<PassedPipeFlag>(out var flag))
-                    {
-                        flag = bottomPipe.AddComponent<PassedPipeFlag>();
-                    }
-                    if (!flag.passed && birdX > pos.x)
-                    {
-                        ScoreManager.Instance.AddScore(1);
-                        flag.passed = true;
-                    }
-                }
+                pipePair.transform.position += interval;
             }
             else
             {
-                // Find the other pipe pair
                 int otherIdx = (i + 1) % 2;
-                var otherPipe = _bottomPipes[otherIdx];
-                float newX = otherPipe.transform.position.x + fixedSpacing;
-                var randomY = Random.Range(0, _pipeHeight / 2);
-                var y = ScreenManager.ScreenBottomEdge + _pipeHeight / 2 - randomY;
+                var otherPipePair = _pipePairs[otherIdx];
+                float newX = otherPipePair.transform.position.x + _pipesSpacing;
+                var y = GetRandomY();
                 var position = new Vector3(newX, y, 0);
-                bottomPipe.transform.position = position;
-                topPipe.transform.position = position + new Vector3(0, _pipeSpacing, 0);
+                pipePair.transform.position = position;
 
-                // Reset passed flag for reused pipe
-                if (bottomPipe.TryGetComponent<PassedPipeFlag>(out var flag))
+                // Reset gap trigger score flag
+                var gapTrigger = pipePair.transform.Find("GapTrigger");
+                if (gapTrigger != null)
                 {
-                    flag.passed = false;
+                    var gapScript = gapTrigger.GetComponent<PipeGapTrigger>();
+                    if (gapScript != null)
+                        gapScript.ResetScoreFlag();
                 }
             }
         }
     }
 
-    private void SpawnPipe(float xPos)
+    private float GetRandomY()
     {
-        var randomY = Random.Range(_floorHeight, _pipeHeight / 2);
-        var x = xPos;
-        var y = ScreenManager.ScreenBottomEdge + _pipeHeight / 2 - randomY;
-        var position = new Vector3(x, y, 0);
+        return _size.y + Random.Range(-_size.y / 2, _size.y / 10);
+    }
 
-        GameObject bottomPipe = Instantiate(GameManager.Instance.PipePrefab, position, Quaternion.identity);
-        GameObject topPipe = Instantiate(GameManager.Instance.PipePrefab, position + new Vector3(0, _pipeSpacing, 0), Quaternion.Euler(0, 0, 180));
-        _bottomPipes.Add(bottomPipe);
-        _topPipes.Add(topPipe);
+    private void SpawnPipePair(float xPosition)
+    {
+        var y = GetRandomY();
+        var pipePair = Instantiate(_pipePairPrefab, new Vector3(xPosition, y, 0), Quaternion.identity);
+        _pipePairs.Add(pipePair);
+
     }
 }
