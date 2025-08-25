@@ -44,7 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7530421826287993161}
   - component: {fileID: 3103397661644180362}
-  - component: {fileID: 8070679534678881222}
+  - component: {fileID: 3490328764044978153}
   m_Layer: 0
   m_Name: pipeTop
   m_TagString: Untagged
@@ -122,8 +122,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &8070679534678881222
-PolygonCollider2D:
+--- !u!61 &3490328764044978153
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -156,7 +156,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -340}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -166,13 +166,8 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -26, y: 160}
-      - {x: -26, y: -160}
-      - {x: 26, y: -160}
-      - {x: 26, y: 160}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 52, y: 1000}
+  m_EdgeRadius: 0
 --- !u!1 &6074060724419991749
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5268157942461680314}
+  - component: {fileID: 2264659915974719203}
   - component: {fileID: 1360267487798223931}
   m_Layer: 0
   m_Name: GapTrigger
@@ -205,6 +201,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1524300225623124336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2264659915974719203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074060724419991749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e654671bdef4a7e942de3092899a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &1360267487798223931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -261,7 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3417637038765274735}
   - component: {fileID: 7814331702316384256}
-  - component: {fileID: 4152316836340270715}
+  - component: {fileID: 6400554941533347787}
   m_Layer: 0
   m_Name: pipeBottom
   m_TagString: Untagged
@@ -339,8 +347,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &4152316836340270715
-PolygonCollider2D:
+--- !u!61 &6400554941533347787
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -373,7 +381,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -340}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -383,10 +391,5 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -26, y: 160}
-      - {x: -26, y: -160}
-      - {x: 26, y: -160}
-      - {x: 26, y: 160}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 52, y: 1000}
+  m_EdgeRadius: 0

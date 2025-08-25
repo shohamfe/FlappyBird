@@ -24,8 +24,39 @@ public class PipesManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool pipesCreated = false;
+
     void Start()
     {
+        // Nothing here, wait for Playing state
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (GameManager.Instance.CurrentState == GameState.Playing)
+        {
+            if (!pipesCreated)
+            {
+                CreatePipes();
+                pipesCreated = true;
+            }
+            else
+            {
+                UpdatePipes();
+            }
+        }
+    }
+
+    private void CreatePipes()
+    {
+        StartCoroutine(CreatePipesWithDelay());
+    }
+
+    private System.Collections.IEnumerator CreatePipesWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
+
         _size = _pipePairPrefab.GetComponentInChildren<SpriteRenderer>().bounds.size;
         _pipesSpacing = _size.x + 200f;
 
@@ -33,8 +64,7 @@ public class PipesManager : MonoBehaviour
             SpawnPipePair(ScreenManager.ScreenRightEdge + _size.x + i * _pipesSpacing);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdatePipes()
     {
         for (int i = 0; i < _pipePairs.Count; i++)
         {

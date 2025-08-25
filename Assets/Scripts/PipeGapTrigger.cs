@@ -8,8 +8,8 @@ public class PipeGapTrigger : MonoBehaviour
     {
         if (!scored && other.CompareTag("Player"))
         {
-            ScoreManager.Instance.AddScore(1);
             scored = true;
+            ScoreManager.Instance.AddScore(1);
         }
     }
 

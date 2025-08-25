@@ -4,7 +4,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
-    public TextMeshProUGUI scoreText;
+    [SerializeField] public TextMeshProUGUI scoreText;
     private int score = 0;
 
     private void Awake()
@@ -27,6 +27,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        Debug.Log(score);
         UpdateScoreText();
     }
 

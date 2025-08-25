@@ -4,6 +4,7 @@ using UnityEngine;
 public class FloorManager : MonoBehaviour
 {
     [SerializeField] private GameObject _floorPrefab;
+    [SerializeField] private Collider2D _floorCollider;
     public static FloorManager Instance { get; private set; }
     private List<GameObject> _floors = new();
     public Vector3 Size { get; private set; }
@@ -26,13 +27,13 @@ public class FloorManager : MonoBehaviour
         Size = _floorPrefab.GetComponent<SpriteRenderer>().bounds.size;
 
         BuildLevel();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        ScrollFloors();
+        if (GameManager.Instance.CurrentState != GameState.GameOver)
+            ScrollFloors();
     }
 
     private void BuildLevel()
