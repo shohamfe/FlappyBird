@@ -1,25 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorManager : MonoBehaviour
+public class FloorManager : Singleton<FloorManager>
 {
     [SerializeField] private GameObject _floorPrefab;
     [SerializeField] private Collider2D _floorCollider;
-    public static FloorManager Instance { get; private set; }
     private List<GameObject> _floors = new();
     public Vector3 Size { get; private set; }
-
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
 
     void Start()
@@ -29,7 +16,6 @@ public class FloorManager : MonoBehaviour
         BuildLevel();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.CurrentState != GameState.GameOver)

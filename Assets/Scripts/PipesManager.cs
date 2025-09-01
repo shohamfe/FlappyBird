@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
-public class PipesManager : MonoBehaviour
+public class PipesManager : Singleton<PipesManager>
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject _pipePairPrefab;
@@ -11,27 +10,9 @@ public class PipesManager : MonoBehaviour
     private Vector3 _size;
 
     private float _pipesSpacing = 200f;
-    public static PipesManager Instance { get; private set; }
 
-
-
-    private void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private bool pipesCreated = false;
 
-    void Start()
-    {
-        // Nothing here, wait for Playing state
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.CurrentState == GameState.Playing)
