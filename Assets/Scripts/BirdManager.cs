@@ -43,7 +43,6 @@ public class BirdManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // You can check the tag or name of the collided object if needed
         if (GameManager.Instance.CurrentState == GameState.Playing)
         {
             GameManager.Instance.GameOver();
@@ -55,6 +54,4 @@ public class BirdManager : MonoBehaviour
     {
         _rigidbody2D.linearVelocity = Vector2.up * _flapForce;
     }
-
-
 }

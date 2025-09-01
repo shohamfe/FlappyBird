@@ -11,6 +11,7 @@ public class PipesManager : Singleton<PipesManager>
 
     private float _pipesSpacing = 200f;
 
+
     private bool pipesCreated = false;
 
     void Update()

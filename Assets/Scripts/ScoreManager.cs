@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ScoreManager : Singleton<ScoreManager>
 {
-    [SerializeField] public TextMeshProUGUI _scoreText;
+    [SerializeField] private TextMeshProUGUI _scoreText;
     private int score = 0;
 
     private void Start()
@@ -13,9 +13,11 @@ public class ScoreManager : Singleton<ScoreManager>
 
     public void AddScore(int amount)
     {
-        score += amount;
-        Debug.Log(score);
-        UpdateScoreText();
+        if (GameManager.Instance.CurrentState == GameState.Playing)
+        {
+            score += amount;
+            UpdateScoreText();
+        }
     }
 
     public void ResetScore()
