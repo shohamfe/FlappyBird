@@ -3,19 +3,17 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [Header("Prefabs")]
-    [SerializeField] private GameObject _birdPrefab;
+    [Header("Prefabs")] [SerializeField] private GameObject _birdPrefab;
 
-    [Header("Movement Settings")]
-    [SerializeField] private float _moveSpeed = 150f;
+    [Header("Movement Settings")] [SerializeField]
+    private float _moveSpeed = 150f;
 
-    [Header("Text")]
-    [SerializeField] private GameObject _gameOverText;
+    [Header("Text")] [SerializeField] private GameObject _gameOverText;
 
     public GameState CurrentState { get; private set; } = GameState.Ready;
 
-    public float Speed { get { return _moveSpeed * Time.deltaTime; } }
-    public GameObject BirdPrefab { get { return _birdPrefab; } }
+    public float Speed => _moveSpeed * Time.deltaTime;
+    public GameObject BirdPrefab => _birdPrefab;
 
     public void StartGame()
     {
@@ -27,7 +25,6 @@ public class GameManager : Singleton<GameManager>
         CurrentState = GameState.GameOver;
         _gameOverText.SetActive(true);
     }
-
 
     void Update()
     {
